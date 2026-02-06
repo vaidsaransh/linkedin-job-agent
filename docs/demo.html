@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Demo | LinkedIn Job Agent</title>
+    <title>Try Demo - CareerOS</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .demo-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 20px;
+        .demo-section {
+            padding: 100px 20px;
         }
 
         .demo-header {
@@ -18,196 +16,218 @@
         }
 
         .demo-header h1 {
-            font-size: 2rem;
-            color: #0A66C2;
-            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
-        .demo-content {
+        .demo-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 4rem;
         }
 
         .demo-card {
             background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
         }
 
-        .demo-card h2 {
-            color: #0A66C2;
+        .demo-card:hover {
+            border-color: #0A7AFF;
+            box-shadow: 0 10px 40px rgba(10, 122, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .demo-icon {
+            font-size: 2.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(10, 122, 255, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%);
+            text-align: center;
+        }
+
+        .demo-content {
+            padding: 2rem;
+        }
+
+        .demo-content h2 {
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-content p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
             margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+        }
+
+        .demo-link {
+            display: inline-block;
+            color: #0A7AFF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .demo-link:hover {
+            transform: translateX(5px);
+        }
+
+        .job-matcher-demo {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group {
-            display: grid;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        label {
+        .form-group label {
             font-weight: 600;
-            color: #333;
-            font-size: 0.9rem;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
         }
 
-        input, select, textarea {
-            padding: 0.75rem;
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.8rem;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 0.95rem;
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        input:focus, select:focus, textarea:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
-            border-color: #0A66C2;
-            box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.1);
+            border-color: #0A7AFF;
+            box-shadow: 0 0 0 3px rgba(10, 122, 255, 0.1);
         }
 
-        .btn-analyze {
-            background: #0A66C2;
+        .btn-primary {
+            background: #0A7AFF;
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.3s;
-            width: 100%;
+            transition: all 0.3s;
             font-size: 1rem;
         }
 
-        .btn-analyze:hover {
-            background: #054B8F;
+        .btn-primary:hover {
+            transform: scale(1.02);
         }
 
-        .results {
+        .results-section {
+            margin-top: 2rem;
             display: none;
         }
 
-        .results.show {
+        .results-section.show {
             display: block;
         }
 
-        .result-item {
-            background: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            border-left: 4px solid #0A66C2;
+        .match-score {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(10, 122, 255, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%);
+            border-radius: 12px;
+            margin-bottom: 2rem;
         }
 
-        .result-item h3 {
-            color: #333;
+        .match-score h3 {
+            color: #555;
             margin-bottom: 0.5rem;
-            font-size: 1rem;
+        }
+
+        .score-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0A7AFF;
+        }
+
+        .score-label {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .result-item {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #0A7AFF;
+        }
+
+        .result-item h4 {
+            color: #1d1d1f;
+            margin: 0 0 0.5rem 0;
         }
 
         .result-item p {
-            color: #666;
+            color: #555;
             margin: 0;
+            font-size: 0.9rem;
         }
 
-        .match-score {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #0A66C2;
-            text-align: center;
-            padding: 1rem;
-            background: linear-gradient(135deg, rgba(10, 102, 194, 0.1) 0%, rgba(87, 184, 255, 0.1) 100%);
-            border-radius: 8px;
+        .tips-section {
+            background: #F5F5F7;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+        }
+
+        .tips-section h2 {
+            color: #0A7AFF;
             margin-bottom: 1.5rem;
         }
 
-        .rating {
-            padding: 1rem;
-            border-radius: 4px;
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .rating.excellent {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .rating.good {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-
-        .rating.fair {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-        }
-
-        .rating.poor {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .skill-tag {
-            background: #0A66C2;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-        .skill-tag.missing {
-            background: #d9534f;
-        }
-
-        .preset-buttons {
+        .tips-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
-        .preset-btn {
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
+        .tip-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #0A7AFF;
         }
 
-        .preset-btn:hover {
-            background: #e8e8e8;
-            border-color: #0A66C2;
+        .tip-card h3 {
+            color: #0A7AFF;
+            font-size: 1rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .tip-card p {
+            color: #555;
+            font-size: 0.9rem;
+            margin: 0;
         }
 
         @media (max-width: 768px) {
-            .demo-content {
-                grid-template-columns: 1fr;
+            .demo-header h1 {
+                font-size: 2rem;
             }
 
-            .preset-buttons {
+            .form-section {
                 grid-template-columns: 1fr;
             }
         }
@@ -215,356 +235,274 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="container">
+        <div class="container nav-content">
             <div class="navbar-brand">
-                <h1>🤖 LinkedIn Job Agent</h1>
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
             </div>
             <ul class="navbar-menu">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#features">Features</a></li>
-                <li><a href="index.html#setup">Setup</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="#" class="demo-link">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="demo-container">
-        <div class="demo-header">
-            <h1>🎯 Interactive Job Matching Demo</h1>
-            <p>Test the job matching algorithm with your own profile</p>
-        </div>
-
-        <div class="demo-content">
-            <!-- Profile Input -->
-            <div class="demo-card">
-                <h2>Your Professional Profile</h2>
-                
-                <div class="preset-buttons">
-                    <button class="preset-btn" onclick="loadProfile('frontend')">
-                        → Frontend Developer
-                    </button>
-                    <button class="preset-btn" onclick="loadProfile('backend')">
-                        → Backend Developer
-                    </button>
-                    <button class="preset-btn" onclick="loadProfile('junior')">
-                        → Junior Developer
-                    </button>
-                    <button class="preset-btn" onclick="loadProfile('senior')">
-                        → Senior Developer
-                    </button>
-                </div>
-
-                <div class="form-group">
-                    <label>Your Role/Position</label>
-                    <input type="text" id="userRole" placeholder="e.g., Software Engineer" value="Frontend Engineer">
-                </div>
-
-                <div class="form-group">
-                    <label>Years of Experience</label>
-                    <input type="number" id="userExperience" min="0" max="50" value="3" placeholder="0">
-                </div>
-
-                <div class="form-group">
-                    <label>Your Skills (comma-separated)</label>
-                    <textarea id="userSkills" placeholder="e.g., JavaScript, React, CSS, HTML">JavaScript, React, CSS, HTML, TypeScript, Git</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Education</label>
-                    <select id="userEducation">
-                        <option value="High School">High School</option>
-                        <option value="Bachelor's Degree" selected>Bachelor's Degree</option>
-                        <option value="Master's Degree">Master's Degree</option>
-                        <option value="PhD">PhD</option>
-                    </select>
-                </div>
-
-                <button class="btn-analyze" onclick="analyzeJob()">Analyze Job Match</button>
+    <div class="demo-section">
+        <div class="container">
+            <div class="demo-header">
+                <h1>Try CareerOS Tools</h1>
+                <p style="font-size: 1.1rem; color: #555;">Experience our AI-powered career tools in action</p>
             </div>
 
-            <!-- Job Input -->
-            <div class="demo-card">
-                <h2>Job Posting</h2>
-                
-                <div class="preset-buttons">
-                    <button class="preset-btn" onclick="loadJob('frontend-mid')">
-                        → Mid React Role
-                    </button>
-                    <button class="preset-btn" onclick="loadJob('fullstack')">
-                        → Full Stack
-                    </button>
-                    <button class="preset-btn" onclick="loadJob('senior-frontend')">
-                        → Senior Frontend
-                    </button>
-                    <button class="preset-btn" onclick="loadJob('junior-web')">
-                        → Junior Web Dev
-                    </button>
-                </div>
+            <!-- Quick Access to All Tools -->
+            <div style="margin-bottom: 4rem;">
+                <div class="demo-grid">
+                    <div class="demo-card">
+                        <div class="demo-icon">🎯</div>
+                        <div class="demo-content">
+                            <h2>Job Matcher</h2>
+                            <p>Find perfect job matches using AI-powered skill analysis and compatibility scoring.</p>
+                            <a href="#matcher-demo" class="demo-link">Try Now →</a>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label>Job Title</label>
-                    <input type="text" id="jobTitle" placeholder="e.g., Senior Frontend Engineer" value="Senior React Developer">
-                </div>
+                    <div class="demo-card">
+                        <div class="demo-icon">💰</div>
+                        <div class="demo-content">
+                            <h2>Salary Calculator</h2>
+                            <p>Negotiate better compensation with data-driven market insights and analysis.</p>
+                            <a href="tools.html#salary-section" class="demo-link">Calculate Now →</a>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label>Company</label>
-                    <input type="text" id="jobCompany" placeholder="e.g., TechCorp" value="TechCorp">
-                </div>
+                    <div class="demo-card">
+                        <div class="demo-icon">📊</div>
+                        <div class="demo-content">
+                            <h2>Job Comparison</h2>
+                            <p>Compare multiple job offers side-by-side with intelligent scoring system.</p>
+                            <a href="comparison.html" class="demo-link">Compare →</a>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label>Required Experience (years)</label>
-                    <input type="number" id="jobExperience" min="0" max="50" value="5" placeholder="0">
-                </div>
+                    <div class="demo-card">
+                        <div class="demo-icon">📈</div>
+                        <div class="demo-content">
+                            <h2>Career Roadmap</h2>
+                            <p>Visualize your career progression path with milestones and skill development.</p>
+                            <a href="roadmap.html" class="demo-link">Plan →</a>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label>Required Skills (comma-separated)</label>
-                    <textarea id="jobSkills" placeholder="e.g., React, TypeScript, Node.js">React, TypeScript, Node.js, REST APIs, Git</textarea>
-                </div>
+                    <div class="demo-card">
+                        <div class="demo-icon">🎤</div>
+                        <div class="demo-content">
+                            <h2>Interview Prep</h2>
+                            <p>Master any interview with personalized questions and company research.</p>
+                            <a href="interview.html" class="demo-link">Prepare →</a>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label>Education Required</label>
-                    <select id="jobEducation">
-                        <option value="High School">High School</option>
-                        <option value="Bachelor's Degree" selected>Bachelor's Degree</option>
-                        <option value="Master's Degree">Master's Degree</option>
-                        <option value="PhD">PhD</option>
-                    </select>
+                    <div class="demo-card">
+                        <div class="demo-icon">📋</div>
+                        <div class="demo-content">
+                            <h2>Application Tracker</h2>
+                            <p>Organize and track all job applications with timeline and status management.</p>
+                            <a href="tracker.html" class="demo-link">Get Started →</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Results -->
-        <div class="demo-card results" id="results">
-            <h2>📊 Analysis Results</h2>
+            <!-- Job Matcher Interactive Demo -->
+            <div id="matcher-demo" class="job-matcher-demo">
+                <h2 style="margin-top: 0; margin-bottom: 1.5rem; color: #0A7AFF;">🎯 Job Matcher Demo</h2>
+                <p style="color: #555; margin-bottom: 2rem;">Enter your profile and find the perfect job match</p>
 
-            <div class="match-score">
-                <div id="matchPercentage">0%</div>
-                <div style="font-size: 1rem; margin-top: 0.5rem;">Match Score</div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label>Your Job Title</label>
+                        <input type="text" id="yourTitle" placeholder="e.g., Senior Software Engineer">
+                    </div>
+                    <div class="form-group">
+                        <label>Years of Experience</label>
+                        <input type="number" id="yourExp" min="0" max="50" placeholder="5">
+                    </div>
+                    <div class="form-group">
+                        <label>Desired Job Title</label>
+                        <input type="text" id="targetTitle" placeholder="e.g., Engineering Manager">
+                    </div>
+                    <div class="form-group">
+                        <label>Required Years Experience</label>
+                        <input type="number" id="targetExp" min="0" max="50" placeholder="7">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-group">
+                        <label>Your Key Skills (comma separated)</label>
+                        <textarea id="yourSkills" placeholder="Python, JavaScript, System Design, Team Leadership"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Required Skills (comma separated)</label>
+                        <textarea id="requiredSkills" placeholder="Team Leadership, Strategic Planning, Mentoring, Budget Management"></textarea>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="runJobMatcherDemo()">Analyze Match</button>
+
+                <div id="matchResults" class="results-section">
+                    <div class="match-score">
+                        <h3>Overall Match Score</h3>
+                        <div class="score-number" id="scoreValue">0%</div>
+                        <p class="score-label" id="scoreLabel">Analyzing...</p>
+                    </div>
+
+                    <div id="matchDetails"></div>
+
+                    <div class="tips-section">
+                        <h2>💡 Recommendations</h2>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h3>Skill Development</h3>
+                                <p id="skillTip">Focus on acquiring missing skills that are critical for your target role.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h3>Experience Gap</h3>
+                                <p id="expTip">Consider roles that bridge the gap to your target position.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h3>Next Steps</h3>
+                                <p id="nextTip">Use our Career Roadmap tool to plan your transition strategy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="rating" id="ratingBox"></div>
-
-            <div class="result-item">
-                <h3>✅ Your Matching Skills</h3>
-                <div class="skills-list" id="matchingSkills"></div>
-            </div>
-
-            <div class="result-item">
-                <h3>🎯 Skills to Develop</h3>
-                <div class="skills-list" id="missingSkills"></div>
-            </div>
-
-            <div class="result-item">
-                <h3>📈 Experience Analysis</h3>
-                <p id="experienceAnalysis"></p>
-            </div>
-
-            <div class="result-item">
-                <h3>🎓 Education Assessment</h3>
-                <p id="educationAnalysis"></p>
-            </div>
-
-            <div class="result-item">
-                <h3>💡 Recommendations</h3>
-                <p id="recommendations"></p>
+            <!-- General Tips -->
+            <div class="tips-section">
+                <h2>🚀 Career Success Tips</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <h3>📚 Keep Learning</h3>
+                        <p>Stay updated with industry trends and continuously develop new skills. Online courses and certifications are valuable.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>🤝 Network Actively</h3>
+                        <p>Build relationships with professionals in your field. Networking often leads to hidden job opportunities.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>📊 Track Progress</h3>
+                        <p>Use our Application Tracker to stay organized and follow up with companies promptly.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>💬 Practice Interviews</h3>
+                        <p>Prepare with our Interview Prep tool. Practice common questions and real interview scenarios.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>💰 Know Your Worth</h3>
+                        <p>Use our Salary Calculator to understand market rates and negotiate better compensation packages.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>🎯 Strategic Planning</h3>
+                        <p>Create a 5-year career roadmap using our Career Roadmap tool to stay focused on your goals.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
+            <div class="footer-links">
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Preset profiles
-        const profiles = {
-            frontend: {
-                role: 'Frontend Engineer',
-                experience: 3,
-                skills: 'JavaScript, React, CSS, HTML, TypeScript, Git, REST APIs',
-                education: "Bachelor's Degree"
-            },
-            backend: {
-                role: 'Backend Engineer',
-                experience: 4,
-                skills: 'Python, Django, PostgreSQL, REST APIs, AWS, Docker, Git',
-                education: "Bachelor's Degree"
-            },
-            junior: {
-                role: 'Junior Developer',
-                experience: 1,
-                skills: 'JavaScript, HTML, CSS, Git, Basic React',
-                education: "Bachelor's Degree"
-            },
-            senior: {
-                role: 'Senior Software Engineer',
-                experience: 8,
-                skills: 'JavaScript, React, Node.js, TypeScript, AWS, Docker, Kubernetes, System Design, Mentoring',
-                education: "Master's Degree"
-            }
-        };
+        function runJobMatcherDemo() {
+            const yourTitle = document.getElementById('yourTitle').value || 'Software Engineer';
+            const yourExp = parseInt(document.getElementById('yourExp').value) || 3;
+            const targetTitle = document.getElementById('targetTitle').value || 'Engineering Manager';
+            const targetExp = parseInt(document.getElementById('targetExp').value) || 7;
+            const yourSkills = document.getElementById('yourSkills').value.split(',').map(s => s.trim().toLowerCase());
+            const requiredSkills = document.getElementById('requiredSkills').value.split(',').map(s => s.trim().toLowerCase());
 
-        const jobs = {
-            'frontend-mid': {
-                title: 'Mid-Level React Developer',
-                company: 'TechCorp',
-                experience: 3,
-                skills: 'React, JavaScript, TypeScript, CSS, REST APIs',
-                education: "Bachelor's Degree"
-            },
-            fullstack: {
-                title: 'Full Stack Developer',
-                company: 'StartupXYZ',
-                experience: 2,
-                skills: 'JavaScript, React, Node.js, MongoDB, Git',
-                education: "Bachelor's Degree"
-            },
-            'senior-frontend': {
-                title: 'Senior Frontend Engineer',
-                company: 'TechCorp',
-                experience: 5,
-                skills: 'React, TypeScript, Node.js, System Design, REST APIs, Git, AWS',
-                education: "Bachelor's Degree"
-            },
-            'junior-web': {
-                title: 'Junior Web Developer',
-                company: 'WebAgency',
-                experience: 1,
-                skills: 'HTML, CSS, JavaScript, Git, Basic React',
-                education: "High School"
-            }
-        };
+            // Calculate match score
+            const matchingSkills = yourSkills.filter(skill => requiredSkills.some(req => req.includes(skill) || skill.includes(req)));
+            const skillMatch = (matchingSkills.length / requiredSkills.length) * 100;
+            const expMatch = Math.min((yourExp / targetExp) * 100, 100);
+            const overallScore = Math.round((skillMatch * 0.6 + expMatch * 0.4));
 
-        function loadProfile(type) {
-            if (profiles[type]) {
-                const p = profiles[type];
-                document.getElementById('userRole').value = p.role;
-                document.getElementById('userExperience').value = p.experience;
-                document.getElementById('userSkills').value = p.skills;
-                document.getElementById('userEducation').value = p.education;
+            let scoreLabel = 'Not a good match';
+            if (overallScore >= 80) scoreLabel = 'Excellent match! You\'re well-qualified.';
+            else if (overallScore >= 60) scoreLabel = 'Good match. You have most requirements.';
+            else if (overallScore >= 40) scoreLabel = 'Fair match. Some skill development needed.';
+
+            document.getElementById('scoreValue').textContent = overallScore + '%';
+            document.getElementById('scoreLabel').textContent = scoreLabel;
+
+            // Generate details
+            let html = `
+                <div class="result-item">
+                    <h4>Your Profile</h4>
+                    <p><strong>Current Role:</strong> ${yourTitle} (${yourExp} years)</p>
+                    <p><strong>Skills:</strong> ${yourSkills.join(', ') || 'Not specified'}</p>
+                </div>
+
+                <div class="result-item">
+                    <h4>Target Role Requirements</h4>
+                    <p><strong>Target Role:</strong> ${targetTitle} (${targetExp} years)</p>
+                    <p><strong>Required Skills:</strong> ${requiredSkills.join(', ') || 'Not specified'}</p>
+                </div>
+
+                <div class="result-item">
+                    <h4>Skill Analysis</h4>
+                    <p><strong>Matching Skills:</strong> ${matchingSkills.join(', ') || 'None'}</p>
+                    <p><strong>Missing Skills:</strong> ${requiredSkills.filter(s => !yourSkills.some(y => y.includes(s) || s.includes(y))).join(', ') || 'None'}</p>
+                    <p><strong>Skill Match Score:</strong> ${Math.round(skillMatch)}%</p>
+                </div>
+
+                <div class="result-item">
+                    <h4>Experience Analysis</h4>
+                    <p><strong>Years of Experience:</strong> ${yourExp} years (Required: ${targetExp})</p>
+                    <p><strong>Experience Match:</strong> ${expMatch.toFixed(0)}%</p>
+                </div>
+            `;
+
+            document.getElementById('matchDetails').innerHTML = html;
+
+            // Update tips
+            if (overallScore >= 80) {
+                document.getElementById('skillTip').textContent = 'You\'re well-aligned for this role! Focus on small skill enhancements and networking.';
+                document.getElementById('nextTip').textContent = 'Start applying to positions matching your target role now. You\'re competitive!';
+            } else if (overallScore >= 60) {
+                document.getElementById('skillTip').textContent = 'You\'re close! Focus on developing the missing ' + (requiredSkills.length - matchingSkills.length) + ' skills.';
+                document.getElementById('nextTip').textContent = 'Consider transitional roles that bridge your current skills to the target position.';
+            } else {
+                document.getElementById('skillTip').textContent = 'Significant skill development needed. Create a learning plan for the missing skills.';
+                document.getElementById('nextTip').textContent = 'Use our Career Roadmap to plan a 2-3 year transition strategy.';
             }
+
+            document.getElementById('matchResults').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('matchResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
-        function loadJob(type) {
-            if (jobs[type]) {
-                const j = jobs[type];
-                document.getElementById('jobTitle').value = j.title;
-                document.getElementById('jobCompany').value = j.company;
-                document.getElementById('jobExperience').value = j.experience;
-                document.getElementById('jobSkills').value = j.skills;
-                document.getElementById('jobEducation').value = j.education;
-            }
-        }
-
-        function parseSkills(skillsString) {
-            return skillsString.split(',').map(s => s.trim().toLowerCase()).filter(s => s.length > 0);
-        }
-
-        function analyzeJob() {
-            // Get inputs
-            const userRole = document.getElementById('userRole').value;
-            const userExp = parseInt(document.getElementById('userExperience').value) || 0;
-            const userSkills = parseSkills(document.getElementById('userSkills').value);
-            const userEdu = document.getElementById('userEducation').value;
-
-            const jobTitle = document.getElementById('jobTitle').value;
-            const jobCompany = document.getElementById('jobCompany').value;
-            const jobExp = parseInt(document.getElementById('jobExperience').value) || 0;
-            const jobSkills = parseSkills(document.getElementById('jobSkills').value);
-            const jobEdu = document.getElementById('jobEducation').value;
-
-            // Calculate skill match
-            const matchedSkills = userSkills.filter(s => jobSkills.includes(s));
-            const missingSkills = jobSkills.filter(s => !userSkills.includes(s));
-
-            // Calculate match percentage
-            let baseMatch = (matchedSkills.length / jobSkills.length) * 100;
-            
-            // Experience adjustment
-            let expAdjustment = 0;
-            if (userExp >= jobExp) {
-                expAdjustment = (userExp - jobExp) * 5;
-            } else {
-                expAdjustment = -(jobExp - userExp) * 5;
-            }
-
-            let finalMatch = Math.min(100, Math.max(0, baseMatch + expAdjustment));
-            finalMatch = Math.round(finalMatch);
-
-            // Determine rating
-            let rating = '';
-            let ratingClass = '';
-            if (finalMatch >= 80) {
-                rating = '🌟 Excellent Match!';
-                ratingClass = 'excellent';
-            } else if (finalMatch >= 60) {
-                rating = '✅ Good Fit';
-                ratingClass = 'good';
-            } else if (finalMatch >= 40) {
-                rating = '⚠️ Fair Opportunity';
-                ratingClass = 'fair';
-            } else {
-                rating = '❌ Significant Gap';
-                ratingClass = 'poor';
-            }
-
-            // Build HTML for results
-            document.getElementById('matchPercentage').textContent = finalMatch + '%';
-            
-            const ratingBox = document.getElementById('ratingBox');
-            ratingBox.textContent = rating;
-            ratingBox.className = 'rating ' + ratingClass;
-
-            // Skills display
-            document.getElementById('matchingSkills').innerHTML = 
-                matchedSkills.length > 0 
-                    ? matchedSkills.map(s => `<span class="skill-tag">${s}</span>`).join('')
-                    : '<p style="color: #666;">No matching skills</p>';
-
-            document.getElementById('missingSkills').innerHTML = 
-                missingSkills.length > 0
-                    ? missingSkills.map(s => `<span class="skill-tag missing">${s}</span>`).join('')
-                    : '<p style="color: #666;">You have all required skills!</p>';
-
-            // Experience analysis
-            const expDiff = userExp - jobExp;
-            let expText = '';
-            if (expDiff >= 0) {
-                expText = `You have ${expDiff} more year(s) of experience than required. Great!`;
-            } else {
-                expText = `You need ${Math.abs(expDiff)} more year(s) of experience. Consider roles with less experience requirement.`;
-            }
-            document.getElementById('experienceAnalysis').textContent = expText;
-
-            // Education analysis
-            const eduLevels = { "High School": 0, "Bachelor's Degree": 1, "Master's Degree": 2, "PhD": 3 };
-            const userEduLevel = eduLevels[userEdu] || 0;
-            const jobEduLevel = eduLevels[jobEdu] || 0;
-            let eduText = '';
-            if (userEduLevel >= jobEduLevel) {
-                eduText = 'Your education meets the requirements. ✅';
-            } else {
-                eduText = `The role requires higher education (${jobEdu}). You may still apply if your experience compensates. 📚`;
-            }
-            document.getElementById('educationAnalysis').textContent = eduText;
-
-            // Recommendations
-            let recText = '';
-            if (finalMatch >= 80) {
-                recText = 'You\'re an excellent fit! Apply immediately and highlight how your extra skills and experience make you valuable.';
-            } else if (finalMatch >= 60) {
-                recText = `Learn the ${missingSkills.slice(0, 2).join(', ')} skills to become a perfect match. Meanwhile, apply and emphasize your transferable skills.`;
-            } else if (finalMatch >= 40) {
-                recText = `You have a foundation for this role. Focus on learning the key missing skills: ${missingSkills.join(', ')}.`;
-            } else {
-                recText = 'Consider roles that better match your current experience level, or pursue significant skill development.';
-            }
-            document.getElementById('recommendations').textContent = recText;
-
-            // Show results
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Initial load
+        // Pre-fill with example data
         window.addEventListener('load', () => {
-            loadProfile('frontend');
-            loadJob('frontend-mid');
+            document.getElementById('yourTitle').value = 'Senior Software Engineer';
+            document.getElementById('yourExp').value = '6';
+            document.getElementById('targetTitle').value = 'Engineering Manager';
+            document.getElementById('targetExp').value = '8';
+            document.getElementById('yourSkills').value = 'Python, JavaScript, System Design, Code Review, Team Collaboration, Problem Solving';
+            document.getElementById('requiredSkills').value = 'Team Leadership, Strategic Planning, Mentoring, Budget Management, Communication, Organization';
         });
     </script>
 </body>
