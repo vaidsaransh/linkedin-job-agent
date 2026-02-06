@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Comparison - CareerOS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .comparison-container {
+            padding: 50px 20px;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .comparison-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-offer-btn {
+            background: #0A7AFF;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .add-offer-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .offers-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .offer-card {
+            background: white;
+            border: 2px solid #0A7AFF;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .offer-card input, .offer-card select {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0 1rem 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .offer-card label {
+            display: block;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-top: 1rem;
+        }
+
+        .offer-card .remove-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #FF3B30;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comparison-results {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: #F5F5F7;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:hover {
+            background: #F9F9FB;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0A7AFF;
+        }
+
+        .highlight {
+            background: #E8F3FF;
+            font-weight: 600;
+        }
+
+        .winner-badge {
+            background: #34C759;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th, .comparison-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="navbar-brand">
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="comparison-container">
+        <div class="container">
+            <div class="comparison-header">
+                <h1>Job Offer Comparison</h1>
+                <p style="color: #555; margin-top: 0.5rem;">Compare multiple offers side-by-side to make the best decision</p>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <button class="add-offer-btn" onclick="addOffer()">+ Add Job Offer</button>
+            </div>
+
+            <div id="offersContainer" class="offers-container">
+                <!-- Offer cards will be generated here -->
+            </div>
+
+            <button class="add-offer-btn" style="display: block; margin: 0 auto;" onclick="compareOffers()">Compare Offers</button>
+
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
+            <div class="footer-links">
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let offers = [
+            { id: 1, company: '', title: '', salary: 0, bonus: 0, benefits: 0, equity: 0, workLife: 5, growth: 5, remote: 0 },
+            { id: 2, company: '', title: '', salary: 0, bonus: 0, benefits: 0, equity: 0, workLife: 5, growth: 5, remote: 0 }
+        ];
+        let nextId = 3;
+
+        function renderOffers() {
+            const container = document.getElementById('offersContainer');
+            container.innerHTML = '';
+
+            offers.forEach(offer => {
+                const card = document.createElement('div');
+                card.className = 'offer-card';
+                card.innerHTML = `
+                    <button class="remove-btn" onclick="removeOffer(${offer.id})">×</button>
+                    <label>Company Name</label>
+                    <input type="text" placeholder="e.g., Google" onchange="updateOffer(${offer.id}, 'company', this.value)" value="${offer.company}">
+
+                    <label>Job Title</label>
+                    <input type="text" placeholder="e.g., Senior Engineer" onchange="updateOffer(${offer.id}, 'title', this.value)" value="${offer.title}">
+
+                    <label>Base Salary</label>
+                    <input type="number" placeholder="150000" onchange="updateOffer(${offer.id}, 'salary', this.value)" value="${offer.salary}">
+
+                    <label>Annual Bonus (%)</label>
+                    <input type="number" placeholder="20" onchange="updateOffer(${offer.id}, 'bonus', this.value)" value="${offer.bonus}">
+
+                    <label>Benefits Value ($/year)</label>
+                    <input type="number" placeholder="15000" onchange="updateOffer(${offer.id}, 'benefits', this.value)" value="${offer.benefits}">
+
+                    <label>Equity (% vesting/year)</label>
+                    <input type="number" placeholder="0.5" step="0.1" onchange="updateOffer(${offer.id}, 'equity', this.value)" value="${offer.equity}">
+
+                    <label>Work-Life Balance (1-10)</label>
+                    <input type="number" min="1" max="10" onchange="updateOffer(${offer.id}, 'workLife', this.value)" value="${offer.workLife}">
+
+                    <label>Growth Opportunity (1-10)</label>
+                    <input type="number" min="1" max="10" onchange="updateOffer(${offer.id}, 'growth', this.value)" value="${offer.growth}">
+
+                    <label>Remote Work Days/Week</label>
+                    <input type="number" min="0" max="5" onchange="updateOffer(${offer.id}, 'remote', this.value)" value="${offer.remote}">
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateOffer(id, field, value) {
+            const offer = offers.find(o => o.id === id);
+            if (offer) {
+                offer[field] = isNaN(value) ? value : parseFloat(value);
+            }
+        }
+
+        function addOffer() {
+            offers.push({ id: nextId++, company: '', title: '', salary: 0, bonus: 0, benefits: 0, equity: 0, workLife: 5, growth: 5, remote: 0 });
+            renderOffers();
+        }
+
+        function removeOffer(id) {
+            if (offers.length > 1) {
+                offers = offers.filter(o => o.id !== id);
+                renderOffers();
+            }
+        }
+
+        function calculateScore(offer) {
+            const totalCompensation = offer.salary + (offer.salary * offer.bonus / 100) + offer.benefits;
+            const compensationScore = (totalCompensation / 200000) * 40; // Max 40 points
+            const balanceScore = offer.workLife * 3; // Max 30 points
+            const growthScore = offer.growth * 3; // Max 30 points
+
+            return Math.min(100, compensationScore + balanceScore + growthScore);
+        }
+
+        function compareOffers() {
+            const validOffers = offers.filter(o => o.company && o.title);
+            if (validOffers.length < 2) {
+                alert('Please fill in at least 2 complete offers');
+                return;
+            }
+
+            const scores = validOffers.map(o => calculateScore(o));
+            const maxScore = Math.max(...scores);
+
+            let tableHTML = `
+                <div class="comparison-results">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                ${validOffers.map((o, i) => `<th>${o.company} - ${o.title}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            const totalComp = validOffers.map(o => o.salary + (o.salary * o.bonus / 100) + o.benefits);
+            tableHTML += `
+                <tr>
+                    <td><strong>Base Salary</strong></td>
+                    ${validOffers.map((o, i) => `<td class="${o.salary === Math.max(...validOffers.map(x => x.salary)) ? 'highlight' : ''}">$${o.salary.toLocaleString()}</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Total Compensation</strong></td>
+                    ${validOffers.map((o, i) => `<td class="${totalComp[i] === Math.max(...totalComp) ? 'highlight' : ''} score">$${totalComp[i].toLocaleString()}</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Annual Bonus</strong></td>
+                    ${validOffers.map(o => `<td>${o.bonus}%</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Benefits</strong></td>
+                    ${validOffers.map(o => `<td>$${o.benefits.toLocaleString()}/yr</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Equity Growth</strong></td>
+                    ${validOffers.map(o => `<td>${o.equity}%/yr</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Work-Life Balance</strong></td>
+                    ${validOffers.map(o => `<td>${o.workLife}/10 ${'⭐'.repeat(Math.round(o.workLife/2))}</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Growth Opportunity</strong></td>
+                    ${validOffers.map(o => `<td>${o.growth}/10 ${'⭐'.repeat(Math.round(o.growth/2))}</td>`).join('')}
+                </tr>
+                <tr>
+                    <td><strong>Remote Work</strong></td>
+                    ${validOffers.map(o => `<td>${o.remote} days/week</td>`).join('')}
+                </tr>
+                <tr style="background: #E8F3FF;">
+                    <td><strong>Overall Score</strong></td>
+                    ${validOffers.map((o, i) => `<td class="score" style="color: ${scores[i] === maxScore ? '#34C759' : '#0A7AFF'}">${scores[i].toFixed(1)}/100 ${scores[i] === maxScore ? '<span class="winner-badge">BEST</span>' : ''}</td>`).join('')}
+                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            document.getElementById('resultsContainer').innerHTML = tableHTML;
+        }
+
+        // Initialize with default offers
+        renderOffers();
+    </script>
+</body>
+</html>

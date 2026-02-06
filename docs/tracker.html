@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Tracker - CareerOS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tracker-container {
+            padding: 50px 20px;
+        }
+
+        .tracker-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tracker-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-application {
+            background: #0A7AFF;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .add-application:hover {
+            transform: scale(1.05);
+        }
+
+        .input-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #0A7AFF;
+        }
+
+        .modal-content input, .modal-content select, .modal-content textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0 1rem 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .modal-content textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-content label {
+            display: block;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save {
+            background: #0A7AFF;
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-cancel {
+            background: #F5F5F7;
+            color: #1d1d1f;
+        }
+
+        .btn-cancel:hover {
+            background: #eee;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0A7AFF;
+        }
+
+        .stat-label {
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .status-filter {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .status-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #555;
+        }
+
+        .status-btn.active {
+            background: #0A7AFF;
+            color: white;
+            border-color: #0A7AFF;
+        }
+
+        .applications-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .application-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .application-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .app-title h3 {
+            margin: 0;
+            color: #1d1d1f;
+        }
+
+        .app-title p {
+            margin: 0.3rem 0 0 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .app-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-applied { background: #E8F3FF; color: #0A7AFF; }
+        .status-interview { background: #FFF4E6; color: #FF9500; }
+        .status-offer { background: #E8F7EE; color: #34C759; }
+        .status-rejected { background: #FFE8E8; color: #FF3B30; }
+
+        .app-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .app-notes {
+            background: #F5F5F7;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            line-height: 1.5;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .app-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .app-btn:hover {
+            background: #F5F5F7;
+        }
+
+        .app-btn.delete {
+            color: #FF3B30;
+            border-color: #FF3B30;
+        }
+
+        .app-btn.delete:hover {
+            background: #FFE8E8;
+        }
+
+        @media (max-width: 768px) {
+            .app-details {
+                grid-template-columns: 1fr;
+            }
+
+            .app-header {
+                flex-direction: column;
+            }
+
+            .app-status {
+                margin-top: 0.5rem;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="navbar-brand">
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="tracker-container">
+        <div class="container">
+            <div class="tracker-header">
+                <h1>Application Tracker</h1>
+                <p style="color: #555; margin-top: 0.5rem;">Track all your job applications in one place</p>
+            </div>
+
+            <button class="add-application" onclick="openAddModal()">+ New Application</button>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalApps">0</div>
+                    <div class="stat-label">Total Applications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="interviewCount">0</div>
+                    <div class="stat-label">Interviews Scheduled</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="offerCount">0</div>
+                    <div class="stat-label">Offers Received</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="successRate">0%</div>
+                    <div class="stat-label">Interview Success Rate</div>
+                </div>
+            </div>
+
+            <div class="status-filter">
+                <button class="status-btn active" onclick="filterByStatus('all', this)">All</button>
+                <button class="status-btn" onclick="filterByStatus('applied', this)">Applied</button>
+                <button class="status-btn" onclick="filterByStatus('interview', this)">Interview</button>
+                <button class="status-btn" onclick="filterByStatus('offer', this)">Offer</button>
+                <button class="status-btn" onclick="filterByStatus('rejected', this)">Rejected</button>
+            </div>
+
+            <div class="applications-list" id="applicationsList"></div>
+        </div>
+    </div>
+
+    <!-- Add Application Modal -->
+    <div id="addModal" class="input-modal">
+        <div class="modal-content">
+            <h2>New Job Application</h2>
+            <label>Company Name</label>
+            <input type="text" id="modalCompany" placeholder="e.g., Google">
+
+            <label>Job Title</label>
+            <input type="text" id="modalTitle" placeholder="e.g., Senior Engineer">
+
+            <label>Application Date</label>
+            <input type="date" id="modalDate">
+
+            <label>Status</label>
+            <select id="modalStatus">
+                <option>Applied</option>
+                <option>Interview</option>
+                <option>Offer</option>
+                <option>Rejected</option>
+            </select>
+
+            <label>Interview Date (if scheduled)</label>
+            <input type="date" id="modalInterviewDate">
+
+            <label>Salary Expected ($)</label>
+            <input type="number" id="modalSalary" placeholder="150000">
+
+            <label>Notes</label>
+            <textarea id="modalNotes" placeholder="Add any notes about this application..."></textarea>
+
+            <div class="modal-buttons">
+                <button class="btn-save" onclick="saveApplication()">Save Application</button>
+                <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
+            <div class="footer-links">
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let applications = JSON.parse(localStorage.getItem('applications')) || [];
+        let currentFilter = 'all';
+
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('active');
+            document.getElementById('modalDate').valueAsDate = new Date();
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('active');
+            // Clear inputs
+            document.getElementById('modalCompany').value = '';
+            document.getElementById('modalTitle').value = '';
+            document.getElementById('modalDate').value = '';
+            document.getElementById('modalStatus').value = 'Applied';
+            document.getElementById('modalInterviewDate').value = '';
+            document.getElementById('modalSalary').value = '';
+            document.getElementById('modalNotes').value = '';
+        }
+
+        function saveApplication() {
+            const app = {
+                id: Date.now(),
+                company: document.getElementById('modalCompany').value,
+                title: document.getElementById('modalTitle').value,
+                date: document.getElementById('modalDate').value,
+                status: document.getElementById('modalStatus').value.toLowerCase(),
+                interviewDate: document.getElementById('modalInterviewDate').value,
+                salary: document.getElementById('modalSalary').value,
+                notes: document.getElementById('modalNotes').value
+            };
+
+            if (!app.company || !app.title) {
+                alert('Please fill in company and title');
+                return;
+            }
+
+            applications.push(app);
+            localStorage.setItem('applications', JSON.stringify(applications));
+            closeAddModal();
+            renderApplications();
+        }
+
+        function deleteApplication(id) {
+            applications = applications.filter(app => app.id !== id);
+            localStorage.setItem('applications', JSON.stringify(applications));
+            renderApplications();
+        }
+
+        function updateStatus(id, newStatus) {
+            const app = applications.find(a => a.id === id);
+            if (app) {
+                app.status = newStatus.toLowerCase();
+                localStorage.setItem('applications', JSON.stringify(applications));
+                renderApplications();
+            }
+        }
+
+        function filterByStatus(status, btn) {
+            currentFilter = status;
+            document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderApplications();
+        }
+
+        function renderApplications() {
+            const filtered = currentFilter === 'all' ? applications : applications.filter(app => app.status === currentFilter);
+
+            const stats = {
+                total: applications.length,
+                interviews: applications.filter(a => a.status === 'interview').length,
+                offers: applications.filter(a => a.status === 'offer').length,
+                successRate: applications.length > 0 ? Math.round((applications.filter(a => a.status === 'interview' || a.status === 'offer').length / applications.length) * 100) : 0
+            };
+
+            document.getElementById('totalApps').textContent = stats.total;
+            document.getElementById('interviewCount').textContent = stats.interviews;
+            document.getElementById('offerCount').textContent = stats.offers;
+            document.getElementById('successRate').textContent = stats.successRate + '%';
+
+            let html = '';
+            if (filtered.length === 0) {
+                html = '<p style="text-align: center; color: #555; padding: 2rem;">No applications yet. Start tracking your job search!</p>';
+            } else {
+                filtered.forEach(app => {
+                    const statusColor = `status-${app.status.replace(' ', '-')}`;
+                    const daysSince = app.date ? Math.floor((Date.now() - new Date(app.date)) / (1000 * 60 * 60 * 24)) : 0;
+
+                    html += `
+                        <div class="application-card">
+                            <div class="app-header">
+                                <div class="app-title">
+                                    <h3>${app.company}</h3>
+                                    <p>${app.title}</p>
+                                </div>
+                                <span class="app-status ${statusColor}">${app.status.toUpperCase()}</span>
+                            </div>
+
+                            <div class="app-details">
+                                <div>📅 Applied: ${new Date(app.date).toLocaleDateString()}</div>
+                                <div>💼 ${daysSince} days ago</div>
+                                ${app.interviewDate ? `<div>🎤 Interview: ${new Date(app.interviewDate).toLocaleDateString()}</div>` : ''}
+                                ${app.salary ? `<div>💰 Expected: $${parseInt(app.salary).toLocaleString()}</div>` : ''}
+                            </div>
+
+                            ${app.notes ? `<div class="app-notes">${app.notes}</div>` : ''}
+
+                            <div class="app-actions">
+                                <select onchange="updateStatus('${app.id}', this.value)" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;">
+                                    <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+                                    <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+                                    <option value="offer" ${app.status === 'offer' ? 'selected' : ''}>Offer</option>
+                                    <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                                </select>
+                                <button class="app-btn delete" onclick="deleteApplication('${app.id}')">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('applicationsList').innerHTML = html;
+        }
+
+        // Set today's date as default
+        document.getElementById('modalDate').valueAsDate = new Date();
+
+        // Initial render
+        renderApplications();
+    </script>
+</body>
+</html>

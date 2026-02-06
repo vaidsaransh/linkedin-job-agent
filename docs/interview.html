@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep - CareerOS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .interview-container {
+            padding: 50px 20px;
+        }
+
+        .interview-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .interview-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .interview-setup {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .interview-setup input, .interview-setup select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .interview-setup label {
+            display: block;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+        }
+
+        .generate-btn {
+            grid-column: 1 / -1;
+            background: #0A7AFF;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .generate-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .questions-container {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #0A7AFF 0%, #34C759 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .question-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .question-type {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .question-body {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .question-body.active {
+            display: block;
+        }
+
+        .answer-hint {
+            background: #E8F3FF;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #0A7AFF;
+        }
+
+        .answer-hint strong {
+            color: #0A7AFF;
+        }
+
+        .tips-section {
+            background: #F5F5F7;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .tips-section h4 {
+            margin-top: 0;
+            color: #1d1d1f;
+        }
+
+        .tips-section ul {
+            color: #555;
+            line-height: 1.8;
+            margin: 0.5rem 0;
+        }
+
+        .company-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            margin-bottom: 2rem;
+        }
+
+        .company-info h2 {
+            color: #0A7AFF;
+            margin-bottom: 1rem;
+        }
+
+        .company-info p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .interview-setup {
+                grid-template-columns: 1fr;
+            }
+
+            .generate-btn {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="navbar-brand">
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="interview-container">
+        <div class="container">
+            <div class="interview-header">
+                <h1>Interview Preparation</h1>
+                <p style="color: #555; margin-top: 0.5rem;">Master your interview with personalized questions and tips</p>
+            </div>
+
+            <div class="interview-setup">
+                <div>
+                    <label>Company Name</label>
+                    <input type="text" id="company" placeholder="e.g., Google">
+                </div>
+                <div>
+                    <label>Job Title</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Senior Engineer">
+                </div>
+                <div>
+                    <label>Interview Type</label>
+                    <select id="interviewType">
+                        <option>Phone Screen</option>
+                        <option>Technical</option>
+                        <option>Behavioral</option>
+                        <option>System Design</option>
+                        <option>Executive Round</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Experience Level</label>
+                    <select id="experience">
+                        <option>Entry Level (0-2 years)</option>
+                        <option>Mid Level (2-5 years)</option>
+                        <option>Senior (5-10 years)</option>
+                        <option>Staff+ (10+ years)</option>
+                    </select>
+                </div>
+                <button class="generate-btn" onclick="generateQuestions()">Generate Interview Questions</button>
+            </div>
+
+            <div id="interviewResult"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
+            <div class="footer-links">
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const questionDatabase = {
+            'behavioral': [
+                { q: "Tell me about a time you overcame a significant challenge.", hint: "Use STAR method (Situation, Task, Action, Result). Highlight problem-solving and resilience." },
+                { q: "Describe a situation where you had to work with a difficult team member.", hint: "Show empathy, communication skills, and conflict resolution. Emphasize positive outcome." },
+                { q: "Give an example of when you took initiative beyond your job responsibilities.", hint: "Demonstrate leadership, ownership, and proactive thinking." },
+                { q: "Tell me about a time you failed and what you learned.", hint: "Be honest but focus on learning and growth. Show self-awareness." },
+                { q: "How do you prioritize when you have multiple competing deadlines?", hint: "Discuss frameworks you use. Show time management and business impact awareness." }
+            ],
+            'technical': [
+                { q: "Walk me through your approach to solving a complex coding problem.", hint: "Think out loud. Ask clarifying questions. Start with brute force, then optimize." },
+                { q: "Explain the difference between SQL and NoSQL databases.", hint: "Discuss trade-offs, use cases, scalability, and when to use each." },
+                { q: "How would you design a system to handle 1 million concurrent users?", hint: "Discuss caching, CDN, load balancing, database sharding, monitoring." },
+                { q: "What's your experience with microservices architecture?", hint: "Discuss benefits, challenges, communication patterns, and deployment." },
+                { q: "How do you approach code review and ensuring code quality?", hint: "Mention automated testing, standards, collaboration, and mentoring." }
+            ],
+            'system-design': [
+                { q: "Design a URL shortening service like bit.ly.", hint: "Discuss hash functions, database schema, scalability, edge cases." },
+                { q: "How would you build a real-time notification system?", hint: "Consider message queues, WebSockets, caching, scalability." },
+                { q: "Design an e-commerce platform that handles Black Friday traffic.", hint: "Focus on caching, CDN, load balancing, database optimization." },
+                { q: "How would you architect a social media feed?", hint: "Discuss timeline generation, caching, ranking algorithms, scale." },
+                { q: "Design a search engine that indexes the entire web.", hint: "Crawling, indexing, ranking, distributed systems." }
+            ]
+        };
+
+        const companyInfo = {
+            'Google': 'Known for innovation, data-driven decisions, and scale. Expect questions about handling large systems and optimization.',
+            'Amazon': 'Focuses on customer obsession, operational excellence, and frugality. Be ready to discuss trade-offs and metrics.',
+            'Meta': 'Emphasizes move fast, breaking things, and social impact. Expect creative and challenging technical questions.',
+            'Apple': 'Values quality, privacy, and user experience. Be ready to discuss design and attention to detail.',
+            'Microsoft': 'Enterprise focus with cloud services. Expect questions about scalability, security, and business impact.'
+        };
+
+        let currentQuestion = 0;
+
+        function generateQuestions() {
+            const company = document.getElementById('company').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+            const interviewType = document.getElementById('interviewType').value;
+            const experience = document.getElementById('experience').value;
+
+            if (!company || !jobTitle) {
+                alert('Please enter company and job title');
+                return;
+            }
+
+            let questions = [];
+            const type = interviewType.toLowerCase();
+
+            if (type.includes('behavioral') || type.includes('phone')) {
+                questions = questionDatabase.behavioral;
+            } else if (type.includes('technical')) {
+                questions = questionDatabase.technical;
+            } else if (type.includes('system')) {
+                questions = questionDatabase['system-design'];
+            }
+
+            // Shuffle questions
+            questions = [...questions].sort(() => Math.random() - 0.5);
+
+            let html = '';
+
+            // Company Info
+            if (companyInfo[company]) {
+                html += `
+                    <div class="company-info">
+                        <h2>💡 About ${company}</h2>
+                        <p>${companyInfo[company]}</p>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div style="background: #E8F3FF; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #0A7AFF;">
+                    <h3 style="margin-top: 0; color: #0A7AFF;">Interview Preparation Tips</h3>
+                    <ul style="color: #555; line-height: 1.8; margin: 0;">
+                        <li>✓ Research the company thoroughly - recent news, products, culture</li>
+                        <li>✓ Prepare your STAR method answers for behavioral questions</li>
+                        <li>✓ Practice coding problems on LeetCode or HackerRank</li>
+                        <li>✓ Think of 3-5 thoughtful questions to ask the interviewer</li>
+                        <li>✓ Get a good night's sleep before the interview</li>
+                        <li>✓ Dress appropriately and arrive 10 minutes early</li>
+                    </ul>
+                </div>
+            `;
+
+            html += '<div class="questions-container">';
+
+            questions.forEach((question, index) => {
+                html += `
+                    <div class="question-card">
+                        <div class="question-header" onclick="toggleQuestion(${index})">
+                            <div>
+                                <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 0.3rem;">Question ${index + 1}</div>
+                                <h3>${question.q}</h3>
+                            </div>
+                            <div class="question-type">${interviewType}</div>
+                        </div>
+                        <div class="question-body" id="q-${index}">
+                            <div class="answer-hint">
+                                <strong>💡 How to Answer:</strong>
+                                <p>${question.hint}</p>
+                            </div>
+                            <div class="tips-section">
+                                <h4>Key Points to Cover:</h4>
+                                <ul>
+                                    <li>Be specific with examples and metrics</li>
+                                    <li>Show your thought process clearly</li>
+                                    <li>Connect your answer to the role requirements</li>
+                                    <li>Ask clarifying questions before diving deep</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            // Practice Tips
+            html += `
+                <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #ddd; margin-top: 2rem;">
+                    <h2 style="color: #0A7AFF; margin-bottom: 1rem;">🎯 Day-of Interview Tips</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div>
+                            <h4 style="color: #1d1d1f;">Before the Interview</h4>
+                            <ul style="color: #555; line-height: 1.8;">
+                                <li>Review the job description</li>
+                                <li>Prepare your elevator pitch</li>
+                                <li>Test your technology setup</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #1d1d1f;">During the Interview</h4>
+                            <ul style="color: #555; line-height: 1.8;">
+                                <li>Make eye contact and listen actively</li>
+                                <li>Take brief notes</li>
+                                <li>Ask clarifying questions</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #1d1d1f;">After the Interview</h4>
+                            <ul style="color: #555; line-height: 1.8;">
+                                <li>Send a thank you email</li>
+                                <li>Reference specific discussions</li>
+                                <li>Reiterate your interest</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('interviewResult').innerHTML = html;
+        }
+
+        function toggleQuestion(index) {
+            const el = document.getElementById(`q-${index}`);
+            el?.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

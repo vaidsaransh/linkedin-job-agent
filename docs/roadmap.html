@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Roadmap - CareerOS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .roadmap-container {
+            padding: 50px 20px;
+        }
+
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .roadmap-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-input {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .roadmap-input input, .roadmap-input select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .roadmap-input label {
+            display: block;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-button {
+            grid-column: 1 / -1;
+            background: #0A7AFF;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .roadmap-button:hover {
+            transform: scale(1.05);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #0A7AFF 0%, #34C759 100%);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 52%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 52%;
+            text-align: left;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #0A7AFF;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            width: 45%;
+        }
+
+        .timeline-content:hover {
+            border-color: #0A7AFF;
+            box-shadow: 0 8px 25px rgba(10, 122, 255, 0.15);
+        }
+
+        .timeline-content h3 {
+            color: #0A7AFF;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0.3rem 0;
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0A7AFF;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 5;
+            width: fit-content;
+            white-space: nowrap;
+            margin-top: -1rem;
+        }
+
+        .roadmap-summary {
+            background: linear-gradient(135deg, rgba(10, 122, 255, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(10, 122, 255, 0.2);
+            margin-top: 3rem;
+        }
+
+        .roadmap-summary h2 {
+            margin-bottom: 1.5rem;
+            color: #1d1d1f;
+        }
+
+        .skills-needed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-item::after {
+                left: 10px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 50px;
+                margin-right: 0;
+                text-align: left;
+                width: calc(100% - 50px);
+            }
+
+            .roadmap-input {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="navbar-brand">
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="roadmap-container">
+        <div class="container">
+            <div class="roadmap-header">
+                <h1>Career Roadmap Planner</h1>
+                <p style="color: #555; margin-top: 0.5rem;">Visualize your path to your dream role</p>
+            </div>
+
+            <div class="roadmap-input">
+                <div>
+                    <label>Current Job Title</label>
+                    <input type="text" id="currentRole" placeholder="e.g., Junior Developer">
+                </div>
+                <div>
+                    <label>Target Job Title</label>
+                    <input type="text" id="targetRole" placeholder="e.g., Senior Engineering Manager">
+                </div>
+                <div>
+                    <label>Years to Target</label>
+                    <input type="number" id="yearsToTarget" min="1" max="20" value="5" placeholder="5">
+                </div>
+                <div>
+                    <label>Industry</label>
+                    <select id="industry">
+                        <option>Technology</option>
+                        <option>Finance</option>
+                        <option>Healthcare</option>
+                        <option>Consulting</option>
+                        <option>Marketing</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <button class="roadmap-button" onclick="generateRoadmap()">Generate My Roadmap</button>
+            </div>
+
+            <div id="roadmapResult"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
+            <div class="footer-links">
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const roadmapTemplates = {
+            'Junior Developer': {
+                'Senior Developer': [
+                    { role: 'Junior Developer', skills: ['Core Programming', 'Version Control', 'Testing Basics'], description: 'Build strong fundamental skills' },
+                    { role: 'Mid-Level Developer', skills: ['System Design', 'Code Review', 'Mentoring'], description: 'Establish technical expertise' },
+                    { role: 'Senior Developer', skills: ['Architecture', 'Technical Leadership', 'Performance Optimization'], description: 'Lead technical decisions' }
+                ],
+                'Engineering Manager': [
+                    { role: 'Junior Developer', skills: ['Core Programming', 'Communication', 'Team Collaboration'], description: 'Master technical fundamentals' },
+                    { role: 'Mid-Level Developer', skills: ['Project Management', 'Mentoring', 'Leadership'], description: 'Develop leadership skills' },
+                    { role: 'Tech Lead', skills: ['Strategic Planning', 'Team Building', 'Roadmapping'], description: 'Lead teams technically' },
+                    { role: 'Engineering Manager', skills: ['People Management', 'Budget Planning', 'Strategic Leadership'], description: 'Manage teams and strategy' }
+                ]
+            },
+            'Product Manager': {
+                'Senior Product Manager': [
+                    { role: 'Product Manager', skills: ['Product Sense', 'Analytics', 'User Research'], description: 'Build core PM skills' },
+                    { role: 'Senior Product Manager', skills: ['Strategy', 'Cross-functional Leadership', 'Roadmapping'], description: 'Lead product vision' }
+                ],
+                'VP Product': [
+                    { role: 'Product Manager', skills: ['Product Development', 'Analytics', 'Leadership'], description: 'Master product fundamentals' },
+                    { role: 'Senior Product Manager', skills: ['Strategic Vision', 'Team Leadership', 'Business Acumen'], description: 'Drive strategy' },
+                    { role: 'Director of Product', skills: ['Organizational Leadership', 'Portfolio Management', 'Executive Presence'], description: 'Manage product portfolio' },
+                    { role: 'VP Product', skills: ['Executive Leadership', 'Board Communication', 'Corporate Strategy'], description: 'Shape company direction' }
+                ]
+            }
+        };
+
+        function generateRoadmap() {
+            const currentRole = document.getElementById('currentRole').value;
+            const targetRole = document.getElementById('targetRole').value;
+            const yearsTarget = parseInt(document.getElementById('yearsToTarget').value);
+            const industry = document.getElementById('industry').value;
+
+            if (!currentRole || !targetRole) {
+                alert('Please enter both current and target roles');
+                return;
+            }
+
+            // Get template or create generic roadmap
+            let milestones = [];
+            const key = `${currentRole}`;
+            
+            if (roadmapTemplates[key] && roadmapTemplates[key][targetRole]) {
+                milestones = roadmapTemplates[key][targetRole];
+            } else {
+                // Generic roadmap
+                const steps = yearsTarget > 3 ? 4 : 3;
+                for (let i = 0; i < steps; i++) {
+                    const progress = Math.round((i / (steps - 1)) * 100);
+                    milestones.push({
+                        role: `Year ${Math.ceil((yearsTarget / steps) * (i + 1))} - Progress Path`,
+                        skills: ['New Skill Development', 'Network Expansion', 'Project Leadership'],
+                        description: `Continue building expertise (${progress}% towards goal)`
+                    });
+                }
+                milestones.push({
+                    role: targetRole,
+                    skills: ['Executive Presence', 'Strategic Vision', 'Industry Leadership'],
+                    description: 'Achieve your target role'
+                });
+            }
+
+            let html = '<div class="timeline">';
+            milestones.forEach((milestone, index) => {
+                const year = Math.ceil((yearsTarget / milestones.length) * (index + 1));
+                html += `
+                    <div class="timeline-item" style="position: relative;">
+                        <div class="timeline-year">Year ${index === milestones.length - 1 ? yearsTarget : year}</div>
+                        <div class="timeline-content">
+                            <h3>${milestone.role}</h3>
+                            <p style="color: #0A7AFF; font-weight: 500; margin-bottom: 0.8rem;">${milestone.description}</p>
+                            <strong style="display: block; margin-bottom: 0.5rem; color: #1d1d1f;">Key Skills to Develop:</strong>
+                            ${milestone.skills.map(skill => `<p>• ${skill}</p>`).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            // Add summary
+            const allSkills = milestones.flatMap(m => m.skills);
+            const uniqueSkills = [...new Set(allSkills)];
+
+            html += `
+                <div class="roadmap-summary">
+                    <h2>Your 5-Year Development Plan</h2>
+                    <p><strong>Goal:</strong> Transition from ${currentRole} to ${targetRole}</p>
+                    <p><strong>Timeline:</strong> ${yearsTarget} years</p>
+                    <p><strong>Industry:</strong> ${industry}</p>
+                    
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Essential Skills to Master:</h3>
+                    <div class="skills-needed">
+                        ${uniqueSkills.map(skill => `<div class="skill-tag">✓ ${skill}</div>`).join('')}
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: white; border-radius: 8px; border-left: 4px solid #0A7AFF;">
+                        <h3 style="color: #0A7AFF; margin-bottom: 0.8rem;">💡 Next Steps</h3>
+                        <ul style="color: #555; line-height: 1.8;">
+                            <li>✓ Identify mentors in your target role</li>
+                            <li>✓ Take relevant courses and certifications</li>
+                            <li>✓ Build projects showcasing your growth</li>
+                            <li>✓ Network with professionals in your target field</li>
+                            <li>✓ Update your resume and LinkedIn profile</li>
+                            <li>✓ Use CareerOS Job Matcher to find transitional roles</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('roadmapResult').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

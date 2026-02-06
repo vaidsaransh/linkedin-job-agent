@@ -3,68 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkedIn Job Application Assistant | AI Agent</title>
+    <title>CareerOS - AI-Powered Career Intelligence</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="container">
+        <div class="container nav-content">
             <div class="navbar-brand">
-                <h1>🤖 LinkedIn Job Agent</h1>
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
             </div>
             <ul class="navbar-menu">
                 <li><a href="#features">Features</a></li>
-                <li><a href="#demo">Demo</a></li>
-                <li><a href="#setup">Setup</a></li>
-                <li><a href="#github" class="btn-github">GitHub</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="demo.html" class="demo-link">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="hero">
-        <div class="container">
-            <h2>AI-Powered LinkedIn Job Application Assistant</h2>
-            <p>Get matched with perfect jobs and get AI-powered advice for applications and interviews</p>
+        <div class="hero-content">
+            <h2 class="hero-title">Your AI Career Intelligence Platform</h2>
+            <p class="hero-subtitle">Make smarter career decisions with AI-powered job matching, salary negotiation, and interview preparation.</p>
             <div class="cta-buttons">
-                <a href="#demo" class="btn btn-primary">Try Demo</a>
-                <a href="https://github.com" class="btn btn-secondary">View on GitHub</a>
+                <a href="tools.html" class="btn btn-primary">Explore Tools</a>
+                <a href="demo.html" class="btn btn-secondary">Try Interactive Demo</a>
             </div>
         </div>
     </section>
 
     <section id="features" class="features">
         <div class="container">
-            <h2>Key Features</h2>
+            <h2 class="section-title">Powerful Tools for Your Career</h2>
+            <p class="section-subtitle">Everything you need to land your dream job</p>
+            
             <div class="feature-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
-                    <h3>Smart Job Matching</h3>
-                    <p>Intelligent skill-based matching algorithm that scores job compatibility and identifies gaps</p>
+                    <h3>Job Matcher</h3>
+                    <p>AI-powered job matching algorithm that scores compatibility and identifies skill gaps</p>
+                    <a href="tools.html#matcher" class="feature-link">Explore →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>AI-Powered Advice</h3>
-                    <p>Uses OpenAI GPT to generate personalized cover letters and interview talking points</p>
+                    <div class="feature-icon">💰</div>
+                    <h3>Salary Calculator</h3>
+                    <p>Negotiate better compensation with AI-powered salary analysis by role, location, and experience</p>
+                    <a href="tools.html#salary" class="feature-link">Explore →</a>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
-                    <h3>Profile Analysis</h3>
-                    <p>Analyzes your profile completeness and suggests improvements for job applications</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💼</div>
-                    <h3>Interview Prep</h3>
-                    <p>Generates technical and behavioral interview questions tailored to the role</p>
+                    <h3>Job Comparison</h3>
+                    <p>Compare multiple job offers side-by-side to find the best fit for your career</p>
+                    <a href="tools.html#comparison" class="feature-link">Explore →</a>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📈</div>
-                    <h3>Application Tracking</h3>
-                    <p>Tracks applications and analyzes success patterns across multiple jobs</p>
+                    <h3>Career Roadmap</h3>
+                    <p>Visualize your career path from current role to target position with skill recommendations</p>
+                    <a href="tools.html#roadmap" class="feature-link">Explore →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3>Learning Roadmap</h3>
-                    <p>AI-generated learning paths to acquire missing skills for target roles</p>
+                    <div class="feature-icon">🎤</div>
+                    <h3>Interview Prep</h3>
+                    <p>Generate personalized interview questions and talking points for any role</p>
+                    <a href="tools.html#interview" class="feature-link">Explore →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Application Tracker</h3>
+                    <p>Track all your applications, interviews, and follow-ups in one place</p>
+                    <a href="tools.html#tracker" class="feature-link">Explore →</a>
                 </div>
             </div>
         </div>
@@ -72,35 +80,32 @@
 
     <section id="demo" class="demo">
         <div class="container">
-            <h2>Try the Interactive Demo</h2>
-            <p>See how the job matching algorithm works</p>
-            <a href="demo.html" class="btn btn-primary">Launch Interactive Demo →</a>
+            <div class="demo-content">
+                <h2>Try the Interactive Demo</h2>
+                <p>Test our AI job matching algorithm with your profile</p>
+                <a href="demo.html" class="btn btn-primary">Launch Demo</a>
+            </div>
         </div>
     </section>
 
     <section id="setup" class="setup">
         <div class="container">
-            <h2>Quick Setup</h2>
-            <div class="setup-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Clone the Repository</h3>
-                    <code>git clone https://github.com/your-username/linkedin-job-agent.git</code>
+            <h2 class="section-title">Powered by AI</h2>
+            <div class="setup-grid">
+                <div class="setup-item">
+                    <div class="setup-num">1</div>
+                    <h3>Smart Analysis</h3>
+                    <p>Our algorithm analyzes job requirements against your profile</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Install Dependencies</h3>
-                    <code>pip install -r requirements.txt</code>
+                <div class="setup-item">
+                    <div class="setup-num">2</div>
+                    <h3>AI Recommendations</h3>
+                    <p>Get personalized advice powered by GPT-4</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Configure OpenAI API (Optional)</h3>
-                    <code>cp .env.example .env<br/># Add your OPENAI_API_KEY</code>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Run the Agent</h3>
-                    <code>python demo.py</code>
+                <div class="setup-item">
+                    <div class="setup-num">3</div>
+                    <h3>Real Results</h3>
+                    <p>Land better jobs with data-driven decisions</p>
                 </div>
             </div>
         </div>
@@ -108,23 +113,19 @@
 
     <section class="tech-stack">
         <div class="container">
-            <h2>Technology Stack</h2>
+            <h2 class="section-title">Built with Modern Technology</h2>
             <div class="tech-grid">
                 <div class="tech-item">
-                    <h4>Python 3.10+</h4>
-                    <p>Core agent logic</p>
+                    <h4>🤖 GPT-4 AI</h4>
                 </div>
                 <div class="tech-item">
-                    <h4>OpenAI GPT-4</h4>
-                    <p>AI recommendations</p>
+                    <h4>⚡ JavaScript</h4>
                 </div>
                 <div class="tech-item">
-                    <h4>Flask</h4>
-                    <p>Web interface</p>
+                    <h4>🐍 Python</h4>
                 </div>
                 <div class="tech-item">
-                    <h4>GitHub Pages</h4>
-                    <p>Documentation site</p>
+                    <h4>🚀 GitHub Pages</h4>
                 </div>
             </div>
         </div>
@@ -132,19 +133,22 @@
 
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to Land Your Dream Job?</h2>
-            <p>Get started with the LinkedIn Job Application Assistant today</p>
-            <a href="https://github.com" class="btn btn-primary btn-large">View on GitHub</a>
+            <h2>Ready to Transform Your Career?</h2>
+            <p>Start using CareerOS today and make smarter job decisions</p>
+            <div class="cta-buttons">
+                <a href="tools.html" class="btn btn-primary btn-large">Explore All Tools</a>
+                <a href="demo.html" class="btn btn-secondary btn-large">Try Demo</a>
+            </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 LinkedIn Job Application Assistant. Open source project.</p>
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
             <div class="footer-links">
-                <a href="#github">GitHub</a>
-                <a href="#docs">Documentation</a>
-                <a href="#license">License</a>
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="demo.html">Demo</a>
+                <a href="tools.html">Tools</a>
             </div>
         </div>
     </footer>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - CareerOS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tools-header {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(10, 122, 255, 0.05) 100%);
+            text-align: center;
+        }
+
+        .tools-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .tool-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            border-color: rgba(10, 122, 255, 0.2);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #1d1d1f;
+        }
+
+        .tool-card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .tool-features li {
+            color: #555;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .tool-features li::before {
+            content: '✓ ';
+            color: #34C759;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .tool-cta {
+            display: inline-block;
+            color: #0A7AFF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tool-cta:hover {
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="navbar-brand">
+                <h1 style="font-size: 24px;">⚡ CareerOS</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" class="demo-link">Tools</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+                <li><a href="https://github.com/vaidsaransh/linkedin-job-agent" class="btn-github">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="tools-header">
+        <h1>Powerful Career Tools</h1>
+        <p style="font-size: 1.2rem; color: #555; margin-top: 1rem;">All the tools you need to land your dream job</p>
+    </div>
+
+    <div class="container">
+        <div class="tools-grid">
+            <!-- Job Matcher -->
+            <div class="tool-card">
+                <div class="tool-icon">🎯</div>
+                <h2>Job Matcher</h2>
+                <p>Find the perfect job match using our AI-powered matching algorithm</p>
+                <ul class="tool-features">
+                    <li>Real-time skill matching</li>
+                    <li>Compatibility scoring</li>
+                    <li>Gap identification</li>
+                    <li>Experience analysis</li>
+                </ul>
+                <a href="demo.html" class="tool-cta">Try Now →</a>
+            </div>
+
+            <!-- Salary Calculator -->
+            <div class="tool-card">
+                <div class="tool-icon">💰</div>
+                <h2>Salary Calculator</h2>
+                <p>Negotiate better compensation with data-driven salary insights</p>
+                <ul class="tool-features">
+                    <li>Market-based salary data</li>
+                    <li>Location adjustments</li>
+                    <li>Experience levels</li>
+                    <li>Negotiation tips</li>
+                </ul>
+                <a href="#salary-section" class="tool-cta">Explore →</a>
+            </div>
+
+            <!-- Job Comparison -->
+            <div class="tool-card">
+                <div class="tool-icon">📊</div>
+                <h2>Job Comparison</h2>
+                <p>Compare multiple offers side-by-side to make the best decision</p>
+                <ul class="tool-features">
+                    <li>Side-by-side comparison</li>
+                    <li>Salary analysis</li>
+                    <li>Benefits breakdown</li>
+                    <li>Scoring system</li>
+                </ul>
+                <a href="comparison.html" class="tool-cta">Compare →</a>
+            </div>
+
+            <!-- Career Roadmap -->
+            <div class="tool-card">
+                <div class="tool-icon">📈</div>
+                <h2>Career Roadmap</h2>
+                <p>Visualize your career path and plan your next steps</p>
+                <ul class="tool-features">
+                    <li>Career progression paths</li>
+                    <li>Skill recommendations</li>
+                    <li>Timeline planning</li>
+                    <li>Milestone tracking</li>
+                </ul>
+                <a href="roadmap.html" class="tool-cta">Plan →</a>
+            </div>
+
+            <!-- Interview Prep -->
+            <div class="tool-card">
+                <div class="tool-icon">🎤</div>
+                <h2>Interview Prep</h2>
+                <p>Master any interview with personalized questions and tips</p>
+                <ul class="tool-features">
+                    <li>Role-specific questions</li>
+                    <li>Company research</li>
+                    <li>Talking points</li>
+                    <li>Mock interviews</li>
+                </ul>
+                <a href="interview.html" class="tool-cta">Prepare →</a>
+            </div>
+
+            <!-- Application Tracker -->
+            <div class="tool-card">
+                <div class="tool-icon">📋</div>
+                <h2>Application Tracker</h2>
+                <p>Stay organized and track all your job applications</p>
+                <ul class="tool-features">
+                    <li>Application history</li>
+                    <li>Interview timeline</li>
+                    <li>Follow-up reminders</li>
+                    <li>Success analytics</li>
+                </ul>
+                <a href="tracker.html" class="tool-cta">Track →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Salary Calculator Section -->
+    <section id="salary-section" class="salary-section" style="padding: 100px 20px; background: linear-gradient(135deg, rgba(10, 122, 255, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);">
+        <div class="container">
+            <h2 style="font-size: 3rem; margin-bottom: 3rem; text-align: center;">Salary Negotiation Calculator</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <label style="font-weight: 600; color: #1d1d1f;">Job Title</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Senior Software Engineer" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 0.5rem;">
+                </div>
+                <div>
+                    <label style="font-weight: 600; color: #1d1d1f;">Years of Experience</label>
+                    <input type="number" id="experience" min="0" max="50" placeholder="5" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 0.5rem;">
+                </div>
+                <div>
+                    <label style="font-weight: 600; color: #1d1d1f;">Location</label>
+                    <select id="location" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 0.5rem;">
+                        <option>San Francisco, CA</option>
+                        <option>New York, NY</option>
+                        <option>Seattle, WA</option>
+                        <option>Austin, TX</option>
+                        <option>Denver, CO</option>
+                        <option>Remote</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-weight: 600; color: #1d1d1f;">Offered Salary</label>
+                    <input type="number" id="offeredSalary" placeholder="150000" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 0.5rem;">
+                </div>
+            </div>
+            <button onclick="calculateSalary()" style="background: #0A7AFF; color: white; padding: 1rem 2rem; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 1rem;">Calculate Market Rate</button>
+            <div id="salaryResult" style="margin-top: 2rem;"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 CareerOS. AI-powered career intelligence platform.</p>
+            <div class="footer-links">
+                <a href="https://github.com/vaidsaransh/linkedin-job-agent">GitHub</a>
+                <a href="index.html">Home</a>
+                <a href="demo.html">Demo</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function calculateSalary() {
+            const experience = parseInt(document.getElementById('experience').value) || 0;
+            const offered = parseInt(document.getElementById('offeredSalary').value) || 0;
+            const location = document.getElementById('location').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+
+            // Market rates by location (base)
+            const locations = {
+                'San Francisco, CA': 180000,
+                'New York, NY': 170000,
+                'Seattle, WA': 165000,
+                'Austin, TX': 145000,
+                'Denver, CO': 140000,
+                'Remote': 155000
+            };
+
+            const baseRate = locations[location] || 150000;
+            const expBonus = experience * 3000; // $3k per year
+            const marketRate = baseRate + expBonus;
+            const negotiationRange = {
+                min: Math.round(marketRate * 0.95),
+                max: Math.round(marketRate * 1.15)
+            };
+
+            const difference = offered - marketRate;
+            const percentage = ((offered - marketRate) / marketRate * 100).toFixed(1);
+
+            const resultHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 12px; margin-top: 1.5rem; border: 1px solid rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 1.5rem; color: #1d1d1f;">Salary Analysis for ${jobTitle}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div>
+                            <p style="color: #555; font-size: 0.9rem; margin-bottom: 0.5rem;">Market Rate</p>
+                            <p style="font-size: 1.8rem; font-weight: 700; color: #0A7AFF;">$${marketRate.toLocaleString()}</p>
+                        </div>
+                        <div>
+                            <p style="color: #555; font-size: 0.9rem; margin-bottom: 0.5rem;">Your Offer</p>
+                            <p style="font-size: 1.8rem; font-weight: 700; color: #1d1d1f;">$${offered.toLocaleString()}</p>
+                        </div>
+                        <div>
+                            <p style="color: #555; font-size: 0.9rem; margin-bottom: 0.5rem;">Difference</p>
+                            <p style="font-size: 1.8rem; font-weight: 700; color: ${difference > 0 ? '#34C759' : '#FF3B30'};">${difference > 0 ? '+' : ''}$${difference.toLocaleString()} (${percentage}%)</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: #F5F5F7; border-radius: 8px;">
+                        <p style="color: #555; font-weight: 600; margin-bottom: 0.5rem;">Recommended Range</p>
+                        <p style="font-size: 1.1rem; color: #1d1d1f;">$${negotiationRange.min.toLocaleString()} - $${negotiationRange.max.toLocaleString()}</p>
+                        ${difference < 0 ? `<p style="color: #FF3B30; margin-top: 1rem; font-weight: 500;">💡 Your offer is ${Math.abs(percentage)}% below market rate. Consider negotiating.</p>` : `<p style="color: #34C759; margin-top: 1rem; font-weight: 500;">✓ Your offer is ${percentage}% above market rate. Excellent!</p>`}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('salaryResult').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
