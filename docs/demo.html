@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Demo | LinkedIn Job Agent</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .demo-header h1 {
+            font-size: 2rem;
+            color: #0A66C2;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-card h2 {
+            color: #0A66C2;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #0A66C2;
+            box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.1);
+        }
+
+        .btn-analyze {
+            background: #0A66C2;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-analyze:hover {
+            background: #054B8F;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .result-item {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #0A66C2;
+        }
+
+        .result-item h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .result-item p {
+            color: #666;
+            margin: 0;
+        }
+
+        .match-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0A66C2;
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(10, 102, 194, 0.1) 0%, rgba(87, 184, 255, 0.1) 100%);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .rating {
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .rating.excellent {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .rating.good {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .rating.fair {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .rating.poor {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #0A66C2;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .skill-tag.missing {
+            background: #d9534f;
+        }
+
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .preset-btn {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: #e8e8e8;
+            border-color: #0A66C2;
+        }
+
+        @media (max-width: 768px) {
+            .demo-content {
+                grid-template-columns: 1fr;
+            }
+
+            .preset-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>🤖 LinkedIn Job Agent</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#setup">Setup</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎯 Interactive Job Matching Demo</h1>
+            <p>Test the job matching algorithm with your own profile</p>
+        </div>
+
+        <div class="demo-content">
+            <!-- Profile Input -->
+            <div class="demo-card">
+                <h2>Your Professional Profile</h2>
+                
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="loadProfile('frontend')">
+                        → Frontend Developer
+                    </button>
+                    <button class="preset-btn" onclick="loadProfile('backend')">
+                        → Backend Developer
+                    </button>
+                    <button class="preset-btn" onclick="loadProfile('junior')">
+                        → Junior Developer
+                    </button>
+                    <button class="preset-btn" onclick="loadProfile('senior')">
+                        → Senior Developer
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Role/Position</label>
+                    <input type="text" id="userRole" placeholder="e.g., Software Engineer" value="Frontend Engineer">
+                </div>
+
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="number" id="userExperience" min="0" max="50" value="3" placeholder="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Your Skills (comma-separated)</label>
+                    <textarea id="userSkills" placeholder="e.g., JavaScript, React, CSS, HTML">JavaScript, React, CSS, HTML, TypeScript, Git</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Education</label>
+                    <select id="userEducation">
+                        <option value="High School">High School</option>
+                        <option value="Bachelor's Degree" selected>Bachelor's Degree</option>
+                        <option value="Master's Degree">Master's Degree</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                </div>
+
+                <button class="btn-analyze" onclick="analyzeJob()">Analyze Job Match</button>
+            </div>
+
+            <!-- Job Input -->
+            <div class="demo-card">
+                <h2>Job Posting</h2>
+                
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="loadJob('frontend-mid')">
+                        → Mid React Role
+                    </button>
+                    <button class="preset-btn" onclick="loadJob('fullstack')">
+                        → Full Stack
+                    </button>
+                    <button class="preset-btn" onclick="loadJob('senior-frontend')">
+                        → Senior Frontend
+                    </button>
+                    <button class="preset-btn" onclick="loadJob('junior-web')">
+                        → Junior Web Dev
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Senior Frontend Engineer" value="Senior React Developer">
+                </div>
+
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" id="jobCompany" placeholder="e.g., TechCorp" value="TechCorp">
+                </div>
+
+                <div class="form-group">
+                    <label>Required Experience (years)</label>
+                    <input type="number" id="jobExperience" min="0" max="50" value="5" placeholder="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Required Skills (comma-separated)</label>
+                    <textarea id="jobSkills" placeholder="e.g., React, TypeScript, Node.js">React, TypeScript, Node.js, REST APIs, Git</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Education Required</label>
+                    <select id="jobEducation">
+                        <option value="High School">High School</option>
+                        <option value="Bachelor's Degree" selected>Bachelor's Degree</option>
+                        <option value="Master's Degree">Master's Degree</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="demo-card results" id="results">
+            <h2>📊 Analysis Results</h2>
+
+            <div class="match-score">
+                <div id="matchPercentage">0%</div>
+                <div style="font-size: 1rem; margin-top: 0.5rem;">Match Score</div>
+            </div>
+
+            <div class="rating" id="ratingBox"></div>
+
+            <div class="result-item">
+                <h3>✅ Your Matching Skills</h3>
+                <div class="skills-list" id="matchingSkills"></div>
+            </div>
+
+            <div class="result-item">
+                <h3>🎯 Skills to Develop</h3>
+                <div class="skills-list" id="missingSkills"></div>
+            </div>
+
+            <div class="result-item">
+                <h3>📈 Experience Analysis</h3>
+                <p id="experienceAnalysis"></p>
+            </div>
+
+            <div class="result-item">
+                <h3>🎓 Education Assessment</h3>
+                <p id="educationAnalysis"></p>
+            </div>
+
+            <div class="result-item">
+                <h3>💡 Recommendations</h3>
+                <p id="recommendations"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Preset profiles
+        const profiles = {
+            frontend: {
+                role: 'Frontend Engineer',
+                experience: 3,
+                skills: 'JavaScript, React, CSS, HTML, TypeScript, Git, REST APIs',
+                education: "Bachelor's Degree"
+            },
+            backend: {
+                role: 'Backend Engineer',
+                experience: 4,
+                skills: 'Python, Django, PostgreSQL, REST APIs, AWS, Docker, Git',
+                education: "Bachelor's Degree"
+            },
+            junior: {
+                role: 'Junior Developer',
+                experience: 1,
+                skills: 'JavaScript, HTML, CSS, Git, Basic React',
+                education: "Bachelor's Degree"
+            },
+            senior: {
+                role: 'Senior Software Engineer',
+                experience: 8,
+                skills: 'JavaScript, React, Node.js, TypeScript, AWS, Docker, Kubernetes, System Design, Mentoring',
+                education: "Master's Degree"
+            }
+        };
+
+        const jobs = {
+            'frontend-mid': {
+                title: 'Mid-Level React Developer',
+                company: 'TechCorp',
+                experience: 3,
+                skills: 'React, JavaScript, TypeScript, CSS, REST APIs',
+                education: "Bachelor's Degree"
+            },
+            fullstack: {
+                title: 'Full Stack Developer',
+                company: 'StartupXYZ',
+                experience: 2,
+                skills: 'JavaScript, React, Node.js, MongoDB, Git',
+                education: "Bachelor's Degree"
+            },
+            'senior-frontend': {
+                title: 'Senior Frontend Engineer',
+                company: 'TechCorp',
+                experience: 5,
+                skills: 'React, TypeScript, Node.js, System Design, REST APIs, Git, AWS',
+                education: "Bachelor's Degree"
+            },
+            'junior-web': {
+                title: 'Junior Web Developer',
+                company: 'WebAgency',
+                experience: 1,
+                skills: 'HTML, CSS, JavaScript, Git, Basic React',
+                education: "High School"
+            }
+        };
+
+        function loadProfile(type) {
+            if (profiles[type]) {
+                const p = profiles[type];
+                document.getElementById('userRole').value = p.role;
+                document.getElementById('userExperience').value = p.experience;
+                document.getElementById('userSkills').value = p.skills;
+                document.getElementById('userEducation').value = p.education;
+            }
+        }
+
+        function loadJob(type) {
+            if (jobs[type]) {
+                const j = jobs[type];
+                document.getElementById('jobTitle').value = j.title;
+                document.getElementById('jobCompany').value = j.company;
+                document.getElementById('jobExperience').value = j.experience;
+                document.getElementById('jobSkills').value = j.skills;
+                document.getElementById('jobEducation').value = j.education;
+            }
+        }
+
+        function parseSkills(skillsString) {
+            return skillsString.split(',').map(s => s.trim().toLowerCase()).filter(s => s.length > 0);
+        }
+
+        function analyzeJob() {
+            // Get inputs
+            const userRole = document.getElementById('userRole').value;
+            const userExp = parseInt(document.getElementById('userExperience').value) || 0;
+            const userSkills = parseSkills(document.getElementById('userSkills').value);
+            const userEdu = document.getElementById('userEducation').value;
+
+            const jobTitle = document.getElementById('jobTitle').value;
+            const jobCompany = document.getElementById('jobCompany').value;
+            const jobExp = parseInt(document.getElementById('jobExperience').value) || 0;
+            const jobSkills = parseSkills(document.getElementById('jobSkills').value);
+            const jobEdu = document.getElementById('jobEducation').value;
+
+            // Calculate skill match
+            const matchedSkills = userSkills.filter(s => jobSkills.includes(s));
+            const missingSkills = jobSkills.filter(s => !userSkills.includes(s));
+
+            // Calculate match percentage
+            let baseMatch = (matchedSkills.length / jobSkills.length) * 100;
+            
+            // Experience adjustment
+            let expAdjustment = 0;
+            if (userExp >= jobExp) {
+                expAdjustment = (userExp - jobExp) * 5;
+            } else {
+                expAdjustment = -(jobExp - userExp) * 5;
+            }
+
+            let finalMatch = Math.min(100, Math.max(0, baseMatch + expAdjustment));
+            finalMatch = Math.round(finalMatch);
+
+            // Determine rating
+            let rating = '';
+            let ratingClass = '';
+            if (finalMatch >= 80) {
+                rating = '🌟 Excellent Match!';
+                ratingClass = 'excellent';
+            } else if (finalMatch >= 60) {
+                rating = '✅ Good Fit';
+                ratingClass = 'good';
+            } else if (finalMatch >= 40) {
+                rating = '⚠️ Fair Opportunity';
+                ratingClass = 'fair';
+            } else {
+                rating = '❌ Significant Gap';
+                ratingClass = 'poor';
+            }
+
+            // Build HTML for results
+            document.getElementById('matchPercentage').textContent = finalMatch + '%';
+            
+            const ratingBox = document.getElementById('ratingBox');
+            ratingBox.textContent = rating;
+            ratingBox.className = 'rating ' + ratingClass;
+
+            // Skills display
+            document.getElementById('matchingSkills').innerHTML = 
+                matchedSkills.length > 0 
+                    ? matchedSkills.map(s => `<span class="skill-tag">${s}</span>`).join('')
+                    : '<p style="color: #666;">No matching skills</p>';
+
+            document.getElementById('missingSkills').innerHTML = 
+                missingSkills.length > 0
+                    ? missingSkills.map(s => `<span class="skill-tag missing">${s}</span>`).join('')
+                    : '<p style="color: #666;">You have all required skills!</p>';
+
+            // Experience analysis
+            const expDiff = userExp - jobExp;
+            let expText = '';
+            if (expDiff >= 0) {
+                expText = `You have ${expDiff} more year(s) of experience than required. Great!`;
+            } else {
+                expText = `You need ${Math.abs(expDiff)} more year(s) of experience. Consider roles with less experience requirement.`;
+            }
+            document.getElementById('experienceAnalysis').textContent = expText;
+
+            // Education analysis
+            const eduLevels = { "High School": 0, "Bachelor's Degree": 1, "Master's Degree": 2, "PhD": 3 };
+            const userEduLevel = eduLevels[userEdu] || 0;
+            const jobEduLevel = eduLevels[jobEdu] || 0;
+            let eduText = '';
+            if (userEduLevel >= jobEduLevel) {
+                eduText = 'Your education meets the requirements. ✅';
+            } else {
+                eduText = `The role requires higher education (${jobEdu}). You may still apply if your experience compensates. 📚`;
+            }
+            document.getElementById('educationAnalysis').textContent = eduText;
+
+            // Recommendations
+            let recText = '';
+            if (finalMatch >= 80) {
+                recText = 'You\'re an excellent fit! Apply immediately and highlight how your extra skills and experience make you valuable.';
+            } else if (finalMatch >= 60) {
+                recText = `Learn the ${missingSkills.slice(0, 2).join(', ')} skills to become a perfect match. Meanwhile, apply and emphasize your transferable skills.`;
+            } else if (finalMatch >= 40) {
+                recText = `You have a foundation for this role. Focus on learning the key missing skills: ${missingSkills.join(', ')}.`;
+            } else {
+                recText = 'Consider roles that better match your current experience level, or pursue significant skill development.';
+            }
+            document.getElementById('recommendations').textContent = recText;
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initial load
+        window.addEventListener('load', () => {
+            loadProfile('frontend');
+            loadJob('frontend-mid');
+        });
+    </script>
+</body>
+</html>
